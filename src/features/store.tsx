@@ -15,12 +15,15 @@ import {
   REGISTER,
 } from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import appReducer from '@/features/app/app.slice';
 import authReducer from '@/features/auth/auth.slice';
+import todoReducer from '@/features/todo/todo.slice';
 
 const rootReducer = combineReducers({
   app: appReducer,
   auth: authReducer,
+  todo: todoReducer,
 });
 
 const persistConfig = {
