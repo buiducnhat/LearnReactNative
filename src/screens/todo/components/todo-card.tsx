@@ -24,7 +24,7 @@ const DeleteIcon = (props: IconProps) => (
 
 const TodoCard = ({id, name, description, isCompleted}: TodoCardProps) => {
   return (
-    <Layout level="1" style={styles.container}>
+    <Layout style={styles.container}>
       <View style={{marginEnd: 12}}>
         <CheckBox checked={isCompleted} status="success" />
       </View>
@@ -40,12 +40,14 @@ const TodoCard = ({id, name, description, isCompleted}: TodoCardProps) => {
 
       <View style={styles.actionContainer}>
         <Button
+          style={styles.actionButton}
           appearance="ghost"
           size="small"
           status="info"
           accessoryLeft={EditIcon}
         />
         <Button
+          style={styles.actionButton}
           appearance="ghost"
           size="small"
           status="danger"
@@ -66,7 +68,8 @@ const styles = StyleSheet.create({
     elevation: 10,
     borderRadius: 12,
     padding: 12,
-    marginBottom: 12,
+    marginHorizontal: 12,
+    marginVertical: 8,
   },
   textContainer: {
     flex: 5,
@@ -78,5 +81,8 @@ const styles = StyleSheet.create({
   actionContainer: {
     flexDirection: 'row',
     flex: 2,
+  },
+  actionButton: {
+    borderRadius: 12,
   },
 });

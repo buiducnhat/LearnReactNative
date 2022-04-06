@@ -1,8 +1,9 @@
 import {StyleSheet, View} from 'react-native';
 import React from 'react';
-import {Layout} from '@ui-kitten/components';
+import {Layout, List} from '@ui-kitten/components';
 import TodoTopBar from './components/todo-top-bar';
 import TodoCard from './components/todo-card';
+import TodoAddInput from './components/todo-add-input';
 
 const tasks = [
   {
@@ -36,6 +37,18 @@ const tasks = [
     description: 'Hello, this is task one, do this now!',
     isCompleted: false,
   },
+  {
+    id: 6,
+    name: 'Task 5',
+    description: 'Hello, this is task one, do this now!',
+    isCompleted: false,
+  },
+  {
+    id: 7,
+    name: 'Task 5',
+    description: 'Hello, this is task one, do this now!',
+    isCompleted: false,
+  },
 ];
 
 const TodoScreen = () => {
@@ -43,11 +56,17 @@ const TodoScreen = () => {
     <Layout level="1" style={styles.container}>
       <TodoTopBar />
 
-      <View style={styles.tasksContainer}>
-        {tasks.map((task, index) => (
-          <TodoCard key={index} {...task} />
-        ))}
-      </View>
+      <List
+        style={styles.tasksContainer}
+        ListHeaderComponent={<View />}
+        ListHeaderComponentStyle={{height: 8}}
+        ListFooterComponent={<View />}
+        ListFooterComponentStyle={{height: 8}}
+        data={tasks}
+        renderItem={info => <TodoCard {...info.item} />}
+      />
+
+      <TodoAddInput />
     </Layout>
   );
 };
@@ -58,7 +77,5 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  tasksContainer: {
-    padding: 8,
-  },
+  tasksContainer: {},
 });

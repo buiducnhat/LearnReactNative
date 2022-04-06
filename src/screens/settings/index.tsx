@@ -10,7 +10,6 @@ const SettingsScreen = () => {
   const themeType = useAppSelector(selectThemeType);
 
   return (
-    // eslint-disable-next-line react-native/no-inline-styles
     <Layout style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
       <Text category="h1">Settings</Text>
       <Button
