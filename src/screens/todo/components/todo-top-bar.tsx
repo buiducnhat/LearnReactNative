@@ -10,6 +10,8 @@ import {
   TopNavigationAction,
 } from '@ui-kitten/components';
 import {StyleSheet, View} from 'react-native';
+import {useAppDispatch} from '@/hooks/redux.hook';
+import {clearTodo} from '@/features/todo/todo.slice';
 
 const MenuIcon = (props: IconProps) => <Icon {...props} name="more-vertical" />;
 
@@ -18,10 +20,16 @@ const ClearIcon = (props: IconProps) => (
 );
 
 const TodoTopBar = () => {
+  const dispatch = useAppDispatch();
   const [menuVisible, setMenuVisible] = React.useState(false);
 
   const toggleMenu = () => {
     setMenuVisible(!menuVisible);
+  };
+
+  const onPressClearTodo = () => {
+    dispatch(clearTodo());
+    setMenuVisible(false);
   };
 
   const renderMenuAction = () => (
@@ -33,7 +41,11 @@ const TodoTopBar = () => {
       anchor={renderMenuAction}
       visible={menuVisible}
       onBackdropPress={toggleMenu}>
-      <MenuItem accessoryLeft={ClearIcon} title="Clear" />
+      <MenuItem
+        accessoryLeft={ClearIcon}
+        title="Clear"
+        onPress={onPressClearTodo}
+      />
     </OverflowMenu>
   );
 

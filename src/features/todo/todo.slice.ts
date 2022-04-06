@@ -14,12 +14,19 @@ export const appSlice = createSlice({
   name: 'app',
   initialState,
   reducers: {
-    addTodo: (state, action: PayloadAction<Omit<Todo, 'id'>>) => {
+    addTodo: (
+      state,
+      action: PayloadAction<Omit<Todo, 'id' | 'isCompleted'>>,
+    ) => {
       const curMaxId = state.todos.reduce(
         (maxId, todo) => Math.max(maxId, todo.id),
         0,
       );
-      state.todos.push({...action.payload, id: curMaxId + 1});
+      state.todos.push({
+        ...action.payload,
+        isCompleted: false,
+        id: curMaxId + 1,
+      });
     },
     updateTodo: (state, action: PayloadAction<Todo>) => {
       state.todos = state.todos.map(todo => {
@@ -29,7 +36,7 @@ export const appSlice = createSlice({
         return todo;
       });
     },
-    removeTodo: (state, action: PayloadAction<number>) => {
+    deleteTodo: (state, action: PayloadAction<number>) => {
       state.todos = state.todos.filter(todo => todo.id !== action.payload);
     },
     clearTodo: state => {
@@ -38,8 +45,11 @@ export const appSlice = createSlice({
   },
 });
 
-export const {addTodo, updateTodo, removeTodo, clearTodo} = appSlice.actions;
+export const {addTodo, updateTodo, deleteTodo, clearTodo} = appSlice.actions;
 
 export const selectTodos = (state: RootState) => state.todo.todos;
+export const selectTodoById = (id: number) => (state: RootState) => {
+  return state.todo.todos.find(todo => todo.id === id);
+};
 
 export default appSlice.reducer;
