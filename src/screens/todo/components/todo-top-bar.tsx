@@ -12,6 +12,7 @@ import {
 import {StyleSheet, View} from 'react-native';
 import {useAppDispatch} from '@/hooks/redux.hook';
 import {clearTodo} from '@/features/todo/todo.slice';
+import ConfirmDialog from '@/components/confirm-dialog';
 
 const MenuIcon = (props: IconProps) => <Icon {...props} name="more-vertical" />;
 
@@ -22,14 +23,21 @@ const ClearIcon = (props: IconProps) => (
 const TodoTopBar = () => {
   const dispatch = useAppDispatch();
   const [menuVisible, setMenuVisible] = React.useState(false);
+  const [confirmClearVisible, setConfirmClearVisible] = React.useState(false);
 
   const toggleMenu = () => {
     setMenuVisible(!menuVisible);
   };
 
   const onPressClearTodo = () => {
+    setMenuVisible(false);
+    setConfirmClearVisible(true);
+  };
+
+  const handleClearTodo = () => {
     dispatch(clearTodo());
     setMenuVisible(false);
+    setConfirmClearVisible(false);
   };
 
   const renderMenuAction = () => (
@@ -62,11 +70,21 @@ const TodoTopBar = () => {
   );
 
   return (
-    <TopNavigation
-      style={styles.container}
-      title={renderTitle}
-      accessoryRight={renderRightActions}
-    />
+    <>
+      <ConfirmDialog
+        visible={confirmClearVisible}
+        setVisible={setConfirmClearVisible}
+        title="Warning"
+        content="Are you sure to clear all todos?"
+        button1Callback={() => setConfirmClearVisible(false)}
+        button2Callback={handleClearTodo}
+      />
+      <TopNavigation
+        style={styles.container}
+        title={renderTitle}
+        accessoryRight={renderRightActions}
+      />
+    </>
   );
 };
 
