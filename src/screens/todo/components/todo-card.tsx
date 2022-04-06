@@ -1,4 +1,4 @@
-import {StyleSheet, TouchableWithoutFeedback, View} from 'react-native';
+import {TouchableWithoutFeedback, View} from 'react-native';
 import React, {useState} from 'react';
 import {
   Button,
@@ -6,11 +6,13 @@ import {
   Icon,
   IconProps,
   Layout,
+  StyleService,
   Text,
+  useStyleSheet,
 } from '@ui-kitten/components';
 import {Todo} from '@/models/todo.model';
 import {useAppDispatch} from '@/hooks/redux.hook';
-import {deleteTodo} from '@/features/todo/todo.slice';
+import {toggleCompleteTodo, deleteTodo} from '@/features/todo/todo.slice';
 import TodoFormModal from './todo-form-modal';
 
 interface TodoCardProps {
@@ -25,10 +27,17 @@ const DeleteIcon = (props: IconProps) => (
 
 const TodoCard = ({todo}: TodoCardProps) => {
   const dispatch = useAppDispatch();
+
+  const styles = useStyleSheet(themedStyles);
+
   const {id, isCompleted, name, description} = todo;
 
   const [openEditModal, setOpenEditModal] = useState(false);
   const [isExtended, setIsExtended] = useState(false);
+
+  const onChangeCompleteCheckBox = () => {
+    dispatch(toggleCompleteTodo(id));
+  };
 
   const onPressEditButton = () => {
     setOpenEditModal(true);
@@ -51,8 +60,14 @@ const TodoCard = ({todo}: TodoCardProps) => {
 
       <TouchableWithoutFeedback onPress={() => setIsExtended(!isExtended)}>
         <Layout style={styles.container}>
-          <View style={{marginEnd: 12}}>
-            <CheckBox checked={isCompleted} status="success" />
+          {isCompleted && <View style={styles.isCompletedBadge} />}
+
+          <View style={{marginHorizontal: 18}}>
+            <CheckBox
+              status="success"
+              checked={isCompleted}
+              onChange={onChangeCompleteCheckBox}
+            />
           </View>
 
           <View style={styles.textContainer}>
@@ -90,16 +105,25 @@ const TodoCard = ({todo}: TodoCardProps) => {
 
 export default TodoCard;
 
-const styles = StyleSheet.create({
+const themedStyles = StyleService.create({
   container: {
+    position: 'relative',
+    overflow: 'hidden',
     minHeight: 100,
     flexDirection: 'row',
     alignItems: 'center',
     elevation: 10,
     borderRadius: 12,
-    padding: 12,
     marginHorizontal: 12,
     marginVertical: 8,
+  },
+  isCompletedBadge: {
+    position: 'absolute',
+    width: 8,
+    height: '100%',
+    top: 0,
+    left: 0,
+    backgroundColor: 'color-success-500',
   },
   textContainer: {
     flex: 5,

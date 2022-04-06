@@ -36,6 +36,14 @@ export const appSlice = createSlice({
         return todo;
       });
     },
+    toggleCompleteTodo: (state, action: PayloadAction<number>) => {
+      state.todos = state.todos.map(todo => {
+        if (todo.id === action.payload) {
+          return {...todo, isCompleted: !todo.isCompleted};
+        }
+        return todo;
+      });
+    },
     deleteTodo: (state, action: PayloadAction<number>) => {
       state.todos = state.todos.filter(todo => todo.id !== action.payload);
     },
@@ -45,7 +53,8 @@ export const appSlice = createSlice({
   },
 });
 
-export const {addTodo, updateTodo, deleteTodo, clearTodo} = appSlice.actions;
+export const {addTodo, updateTodo, toggleCompleteTodo, deleteTodo, clearTodo} =
+  appSlice.actions;
 
 export const selectTodos = (state: RootState) => state.todo.todos;
 export const selectTodoById = (id: number) => (state: RootState) => {
