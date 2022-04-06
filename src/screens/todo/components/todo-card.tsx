@@ -126,7 +126,7 @@ const themedStyles = StyleService.create({
     backgroundColor: 'color-success-500',
   },
   textContainer: {
-    flex: 5,
+    flex: 2,
   },
   nameText: {
     fontWeight: 'bold',
@@ -134,7 +134,7 @@ const themedStyles = StyleService.create({
   },
   actionContainer: {
     flexDirection: 'row',
-    flex: 2,
+    flex: 1,
   },
   actionButton: {
     borderRadius: 12,
