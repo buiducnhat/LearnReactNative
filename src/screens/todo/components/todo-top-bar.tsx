@@ -13,8 +13,6 @@ import {StyleSheet, View} from 'react-native';
 
 const MenuIcon = (props: IconProps) => <Icon {...props} name="more-vertical" />;
 
-const AddIcon = (props: IconProps) => <Icon {...props} name="plus" />;
-
 const ClearIcon = (props: IconProps) => (
   <Icon {...props} name="trash-2-outline" />
 );
@@ -35,7 +33,6 @@ const TodoTopBar = () => {
       anchor={renderMenuAction}
       visible={menuVisible}
       onBackdropPress={toggleMenu}>
-      <MenuItem accessoryLeft={AddIcon} title="Add" />
       <MenuItem accessoryLeft={ClearIcon} title="Clear" />
     </OverflowMenu>
   );
@@ -44,7 +41,7 @@ const TodoTopBar = () => {
     <View style={styles.titleContainer}>
       <Avatar
         style={styles.logo}
-        source={require('../../../assets/images/todo-icon.png')}
+        source={require('@/assets/images/todo-icon.png')}
       />
       <Text {...props} category="h5" style={{}}>
         My Todo
@@ -53,11 +50,16 @@ const TodoTopBar = () => {
   );
 
   return (
-    <TopNavigation title={renderTitle} accessoryRight={renderRightActions} />
+    <TopNavigation
+      style={styles.container}
+      title={renderTitle}
+      accessoryRight={renderRightActions}
+    />
   );
 };
 
 const styles = StyleSheet.create({
+  container: {},
   titleContainer: {
     flexDirection: 'row',
     alignItems: 'center',
