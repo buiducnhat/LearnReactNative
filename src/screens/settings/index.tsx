@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Layout, Text} from '@ui-kitten/components';
+import {Layout, Text, Toggle} from '@ui-kitten/components';
 
 import {selectThemeType, setThemeType} from '@/features/app/app.slice';
 import {useAppDispatch, useAppSelector} from '@/hooks/redux.hook';
@@ -12,12 +12,13 @@ const SettingsScreen = () => {
   return (
     <Layout style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
       <Text category="h1">Settings</Text>
-      <Button
-        onPress={() =>
+      <Toggle
+        checked={themeType === 'dark'}
+        onChange={() =>
           dispatch(setThemeType(themeType === 'light' ? 'dark' : 'light'))
         }>
-        Toggle
-      </Button>
+        {themeType === 'light' ? 'Light theme' : 'Dark theme'}
+      </Toggle>
     </Layout>
   );
 };
