@@ -1,4 +1,4 @@
-import React, {ReactElement, useContext} from 'react';
+import React, {ReactElement} from 'react';
 import {
   Button,
   CheckBox,
@@ -11,7 +11,6 @@ import {
   useStyleSheet,
 } from '@ui-kitten/components';
 
-import {ThemeContext} from '@/features/app/theme.context';
 import {TouchableWithoutFeedback, View} from 'react-native';
 import {KeyboardAvoidingView} from '@/components/keyboard-avoiding-view';
 import {routes} from '@/configs/routes.config';

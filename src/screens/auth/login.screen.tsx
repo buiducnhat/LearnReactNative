@@ -1,4 +1,4 @@
-import React, {ReactElement, useEffect} from 'react';
+import React, {ReactElement} from 'react';
 import {
   Button,
   Icon,
@@ -13,20 +13,15 @@ import {
 import {TouchableWithoutFeedback, View} from 'react-native';
 import {KeyboardAvoidingView} from '@/components/keyboard-avoiding-view';
 import {routes} from '@/configs/routes.config';
-import {useAuthContext} from '@/features/auth/auth.context';
 
 const LoginScreen = ({navigation}: {navigation: any}): React.ReactElement => {
-  const [authState, authDispatch] = useAuthContext();
-
   const [email, setEmail] = React.useState<string>('');
   const [password, setPassword] = React.useState<string>('');
   const [passwordVisible, setPasswordVisible] = React.useState<boolean>(false);
 
   const styles = useStyleSheet(themedStyles);
 
-  const onLoginButtonPress = (): void => {
-    authDispatch({type: 'LOGIN', payload: {email, password}});
-  };
+  const onLoginButtonPress = (): void => {};
 
   const onRegisterButtonPress = (): void => {
     navigation && navigation.navigate(routes.register);
@@ -48,15 +43,11 @@ const LoginScreen = ({navigation}: {navigation: any}): React.ReactElement => {
     </TouchableWithoutFeedback>
   );
 
-  useEffect(() => {
-    authState.isAuthenticated && navigation.navigate(routes.home);
-  }, [authState.isAuthenticated, navigation]);
-
   return (
     <KeyboardAvoidingView style={styles.container}>
       <View style={styles.headerContainer}>
         <Text category="h1" status="control">
-          {`Hello ${authState.user?.name}`}
+          Hello
         </Text>
         <Text style={styles.signInLabel} category="s1" status="control">
           Sign in to your account
