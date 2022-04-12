@@ -1,11 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
+
 import {RootState} from '@/features/store';
-
-export type ThemeType = 'light' | 'dark' | 'os';
-
-export interface AppState {
-  themeType: ThemeType;
-}
+import {AppState} from './app.model';
 
 const initialState: AppState = {
   themeType: 'os',
