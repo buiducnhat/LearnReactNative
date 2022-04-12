@@ -74,6 +74,7 @@ const RegisterScreen = ({
         <Input
           style={styles.inputMT}
           placeholder="Email"
+          keyboardType="email-address"
           accessoryRight={EmailIcon}
           value={email}
           onChangeText={setEmail}

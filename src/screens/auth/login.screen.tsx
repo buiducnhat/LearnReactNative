@@ -62,6 +62,7 @@ const LoginScreen = ({navigation}: {navigation: any}): React.ReactElement => {
       <Layout style={styles.formContainer} level="1">
         <Input
           placeholder="Email"
+          keyboardType="email-address"
           accessoryRight={EmailIcon}
           value={email}
           onChangeText={setEmail}

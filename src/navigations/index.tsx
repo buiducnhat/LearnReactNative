@@ -6,11 +6,19 @@ import {routes} from '@/configs/routes.config';
 import BottomTabNavigator from './bottom-tab';
 import AuthNavigator from './auth-navigator';
 import useCheckAuth from '@/hooks/useCheckAuth';
+import {useAppDispatch} from '@/hooks/redux.hook';
+import {authActions} from '@/features/auth/auth.slice';
 
 const MyNavigationContainer = () => {
   const Stack = createNativeStackNavigator();
 
+  const dispatch = useAppDispatch();
+
   const {isAuthenticated} = useCheckAuth();
+
+  React.useEffect(() => {
+    dispatch(authActions.getMe());
+  }, [dispatch]);
 
   return (
     <NavigationContainer>
