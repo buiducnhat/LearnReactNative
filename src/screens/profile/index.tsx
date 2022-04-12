@@ -6,6 +6,7 @@ import {StyleSheet} from 'react-native';
 import useCheckAuth from '@/hooks/useCheckAuth';
 import {useAppDispatch} from '@/hooks/redux.hook';
 import {authActions} from '@/features/auth/auth.slice';
+import ProfileTopBar from './components/profile-top-bar';
 
 const ProfileScreen = () => {
   const navigation = useNavigation();
@@ -16,17 +17,18 @@ const ProfileScreen = () => {
 
   React.useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-      !isAuthenticated && dispatch(authActions.getMe());
+      (!isAuthenticated || !currentUser) && dispatch(authActions.getMe());
     });
 
     return unsubscribe;
-  }, [dispatch, isAuthenticated, navigation]);
+  }, [currentUser, dispatch, isAuthenticated, navigation]);
 
   return (
     <Layout style={styles.container} level="1">
-      <Text category="h1">Profile</Text>
-      <Text>{currentUser?.name}</Text>
-      <Avatar source={{uri: currentUser?.avatar}} />
+      <ProfileTopBar />
+
+      <Text category="h6">{currentUser?.name}</Text>
+      <Avatar size="giant" source={{uri: currentUser?.avatar}} />
     </Layout>
   );
 };
@@ -34,7 +36,6 @@ const ProfileScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
   },
 });

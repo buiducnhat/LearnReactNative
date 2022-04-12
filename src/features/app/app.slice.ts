@@ -4,7 +4,7 @@ import {RootState} from '@/features/store';
 import {AppState} from './app.model';
 
 const initialState: AppState = {
-  themeType: 'os',
+  themeType: 'light',
 };
 
 export const appSlice = createSlice({
