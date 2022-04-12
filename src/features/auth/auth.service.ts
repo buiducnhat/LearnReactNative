@@ -1,8 +1,8 @@
 import 'reflect-metadata';
 import {Service} from 'typedi';
 import axios from 'axios';
-
 import {API_ENDPOINT} from '@env';
+
 import {GetMeApiParams, LoginPayload, User} from './auth.model';
 
 @Service()
@@ -22,7 +22,6 @@ export default class AuthService {
         password,
       },
     });
-
     return response.data;
   }
 

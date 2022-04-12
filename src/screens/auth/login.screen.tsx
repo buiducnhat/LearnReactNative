@@ -13,15 +13,21 @@ import {
 import {TouchableWithoutFeedback, View} from 'react-native';
 import {KeyboardAvoidingView} from '@/components/keyboard-avoiding-view';
 import {routes} from '@/configs/routes.config';
+import {useAppDispatch} from '@/hooks/redux.hook';
+import {authActions} from '@/features/auth/auth.slice';
 
 const LoginScreen = ({navigation}: {navigation: any}): React.ReactElement => {
+  const dispatch = useAppDispatch();
+
   const [email, setEmail] = React.useState<string>('');
   const [password, setPassword] = React.useState<string>('');
   const [passwordVisible, setPasswordVisible] = React.useState<boolean>(false);
 
   const styles = useStyleSheet(themedStyles);
 
-  const onLoginButtonPress = (): void => {};
+  const onLoginButtonPress = (): void => {
+    dispatch(authActions.login({email, password}));
+  };
 
   const onRegisterButtonPress = (): void => {
     navigation && navigation.navigate(routes.register);

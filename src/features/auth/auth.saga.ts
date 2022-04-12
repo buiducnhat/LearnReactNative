@@ -2,13 +2,11 @@ import {PayloadAction} from '@reduxjs/toolkit';
 import {all, call, put, select, takeLatest} from 'redux-saga/effects';
 import Container from 'typedi';
 
-import {User} from './auth.model';
+import {LoginPayload, User} from './auth.model';
 import AuthService from './auth.service';
 import {authActions, selectAccessToken} from './auth.slice';
 
-export function* handleLogin(
-  action: PayloadAction<{email: string; password: string}>,
-) {
+export function* handleLogin(action: PayloadAction<LoginPayload>) {
   try {
     const authService = Container.get(AuthService);
     const result: {access_token: string} = yield call(
