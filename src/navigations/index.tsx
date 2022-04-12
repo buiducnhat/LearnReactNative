@@ -14,14 +14,14 @@ const MyNavigationContainer = () => {
 
   const dispatch = useAppDispatch();
 
-  const {isAuthenticated} = useCheckAuth();
+  const {isAuthenticated, currentUser} = useCheckAuth();
 
-  React.useEffect(() => {
-    dispatch(authActions.getMe());
-  }, [dispatch]);
+  const onStateChange = () => {
+    (!isAuthenticated || !currentUser) && dispatch(authActions.getMe());
+  };
 
   return (
-    <NavigationContainer>
+    <NavigationContainer onStateChange={onStateChange}>
       <Stack.Navigator screenOptions={{headerShown: false}}>
         {isAuthenticated ? (
           <Stack.Screen name={routes.main} component={BottomTabNavigator} />

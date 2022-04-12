@@ -12,16 +12,15 @@ const ProfileScreen = () => {
 
   const dispatch = useAppDispatch();
 
-  const {currentUser} = useCheckAuth();
-  console.log(currentUser);
+  const {isAuthenticated, currentUser} = useCheckAuth();
 
   React.useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-      dispatch(authActions.getMe());
+      !isAuthenticated && dispatch(authActions.getMe());
     });
 
     return unsubscribe;
-  }, [dispatch, navigation]);
+  }, [dispatch, isAuthenticated, navigation]);
 
   return (
     <Layout style={styles.container} level="1">
