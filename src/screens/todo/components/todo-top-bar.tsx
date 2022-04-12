@@ -11,7 +11,7 @@ import {
 } from '@ui-kitten/components';
 import {StyleSheet, View} from 'react-native';
 import {useAppDispatch} from '@/hooks/redux.hook';
-import {clearTodo} from '@/features/todo/todo.slice';
+import {todoActions} from '@/features/todo/todo.slice';
 import ConfirmDialog from '@/components/confirm-dialog';
 
 const MenuIcon = (props: IconProps) => <Icon {...props} name="more-vertical" />;
@@ -35,7 +35,7 @@ const TodoTopBar = () => {
   };
 
   const handleClearTodo = () => {
-    dispatch(clearTodo());
+    dispatch(todoActions.clearTodo());
     setMenuVisible(false);
     setConfirmClearVisible(false);
   };

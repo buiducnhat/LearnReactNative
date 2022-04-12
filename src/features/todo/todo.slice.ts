@@ -1,23 +1,18 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {RootState} from '@/features/store';
-import {Todo} from '@/models/todo.model';
 
-export interface TodoState {
-  todos: Todo[];
-}
+import {RootState} from '@/features/store';
+import {Todo} from '@/features/todo/todo.model';
+import {AddTodoPayload, TodoState} from './todo.model';
 
 const initialState: TodoState = {
   todos: [],
 };
 
-export const appSlice = createSlice({
-  name: 'app',
+export const todoSlice = createSlice({
+  name: 'todo',
   initialState,
   reducers: {
-    addTodo: (
-      state,
-      action: PayloadAction<Omit<Todo, 'id' | 'isCompleted'>>,
-    ) => {
+    addTodo: (state, action: PayloadAction<AddTodoPayload>) => {
       const curMaxId = state.todos.reduce(
         (maxId, todo) => Math.max(maxId, todo.id),
         0,
@@ -53,12 +48,11 @@ export const appSlice = createSlice({
   },
 });
 
-export const {addTodo, updateTodo, toggleCompleteTodo, deleteTodo, clearTodo} =
-  appSlice.actions;
+export const todoActions = todoSlice.actions;
 
 export const selectTodos = (state: RootState) => state.todo.todos;
-export const selectTodoById = (id: number) => (state: RootState) => {
-  return state.todo.todos.find(todo => todo.id === id);
+export const selectTodoById = (id: number) => (state: any) => {
+  return state.todo.todos.find((todo: Todo) => todo.id === id);
 };
 
-export default appSlice.reducer;
+export default todoSlice.reducer;

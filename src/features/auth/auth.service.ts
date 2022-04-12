@@ -1,23 +1,39 @@
 import 'reflect-metadata';
-import {User} from '@/models/user.model';
 import {Service} from 'typedi';
+import axios from 'axios';
+
+import {API_ENDPOINT} from '@env';
+import {LoginPayload, User} from './auth.model';
 
 @Service()
 export default class AuthService {
-  login({email, password}: {email: string; password: string}): Promise<User> {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        if (email === 'abc@gmail.com' && password === 'password') {
-          resolve({
-            id: 1,
-            email: 'abc@gmail.com',
-            name: 'John Doe',
-            password: 'password',
-          });
-        } else {
-          reject('Invalid email or password');
-        }
-      }, 1000);
+  async loginApi({
+    email,
+    password,
+  }: LoginPayload): Promise<{access_token: string}> {
+    const response = await axios({
+      url: `${API_ENDPOINT}/auth/login`,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: {
+        email,
+        password,
+      },
     });
+
+    return response.data;
+  }
+
+  async getMeApi({accessToken}: {accessToken: string}): Promise<User> {
+    const response = await axios({
+      url: `${API_ENDPOINT}/auth/me`,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    return response.data;
   }
 }

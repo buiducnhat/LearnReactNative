@@ -2,8 +2,8 @@ import React, {useState} from 'react';
 import {Dimensions, StyleSheet} from 'react-native';
 import {Button, Card, Input, Modal} from '@ui-kitten/components';
 import {useAppDispatch} from '@/hooks/redux.hook';
-import {addTodo, updateTodo} from '@/features/todo/todo.slice';
-import {Todo} from '@/models/todo.model';
+import {todoActions} from '@/features/todo/todo.slice';
+import {Todo} from '@/features/todo/todo.model';
 
 interface TodoFormModalProps {
   visible: boolean;
@@ -30,13 +30,13 @@ const TodoFormModal = ({
 
   const handleAddTodo = () => {
     if (name) {
-      dispatch(addTodo({name, description}));
+      dispatch(todoActions.addTodo({name, description}));
     }
   };
 
   const handleEditTodo = () => {
     if (todo && name) {
-      dispatch(updateTodo({...todo, name, description}));
+      dispatch(todoActions.updateTodo({...todo, name, description}));
     }
   };
 

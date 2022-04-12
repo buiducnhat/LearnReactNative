@@ -10,9 +10,10 @@ import {
   Text,
   useStyleSheet,
 } from '@ui-kitten/components';
-import {Todo} from '@/models/todo.model';
+
+import {Todo} from '@/features/todo/todo.model';
 import {useAppDispatch} from '@/hooks/redux.hook';
-import {toggleCompleteTodo, deleteTodo} from '@/features/todo/todo.slice';
+import {todoActions} from '@/features/todo/todo.slice';
 import TodoFormModal from './todo-form-modal';
 
 interface TodoCardProps {
@@ -26,6 +27,8 @@ const DeleteIcon = (props: IconProps) => (
 );
 
 const TodoCard = ({todo}: TodoCardProps) => {
+  const {toggleCompleteTodo, deleteTodo} = todoActions;
+
   const dispatch = useAppDispatch();
 
   const styles = useStyleSheet(themedStyles);
