@@ -18,7 +18,6 @@ export function* handleLogin(
 
     yield put({type: authActions.loginSuccess.type, payload: result});
   } catch (error) {
-    console.log(error);
     yield put({type: authActions.loginFailed.type});
   }
 }
@@ -33,7 +32,6 @@ export function* handleGetMe() {
 
     yield put({type: authActions.getMeSuccess.type, payload: result});
   } catch (error) {
-    console.log(error);
     yield put({type: authActions.getMeFailed.type});
   }
 }

@@ -3,7 +3,7 @@ import {Service} from 'typedi';
 import axios from 'axios';
 
 import {API_ENDPOINT} from '@env';
-import {LoginPayload, User} from './auth.model';
+import {GetMeApiParams, LoginPayload, User} from './auth.model';
 
 @Service()
 export default class AuthService {
@@ -26,7 +26,7 @@ export default class AuthService {
     return response.data;
   }
 
-  async getMeApi({accessToken}: {accessToken: string}): Promise<User> {
+  async getMeApi({accessToken}: GetMeApiParams): Promise<User> {
     const response = await axios({
       url: `${API_ENDPOINT}/auth/me`,
       headers: {

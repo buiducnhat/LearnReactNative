@@ -16,4 +16,6 @@ export interface LoginPayload {
   password: string;
 }
 
-export interface GetMeApiPayload {}
+export interface GetMeApiParams {
+  accessToken: string;
+}
