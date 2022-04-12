@@ -1,7 +1,7 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
 import {RootState} from '@/features/store';
-import {AuthState, LoginPayload, User} from './auth.model';
+import {AuthState, LoginPayload, RegisterPayload, User} from './auth.model';
 
 const initialState: AuthState = {
   accessToken: undefined,
@@ -13,6 +13,7 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
+    // Handle login
     login(_state, _action: PayloadAction<LoginPayload>) {},
     loginSuccess(state, action: PayloadAction<{access_token?: string}>) {
       state.accessToken = action.payload.access_token;
@@ -24,6 +25,19 @@ export const authSlice = createSlice({
       state.currentUser = undefined;
     },
 
+    // Handle register
+    register(_state, _action: PayloadAction<RegisterPayload>) {},
+    registerSuccess(state, action: PayloadAction<{access_token?: string}>) {
+      state.accessToken = action.payload.access_token;
+      state.isAuthenticated = true;
+    },
+    registerFailed(state) {
+      state.accessToken = undefined;
+      state.isAuthenticated = false;
+      state.currentUser = undefined;
+    },
+
+    // Handle get me
     getMe() {},
     getMeSuccess(state, action: PayloadAction<User>) {
       state.isAuthenticated = true;
@@ -34,6 +48,7 @@ export const authSlice = createSlice({
       state.currentUser = undefined;
     },
 
+    // Handle logout
     logout(state) {
       state.accessToken = undefined;
       state.isAuthenticated = false;

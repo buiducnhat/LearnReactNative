@@ -16,6 +16,11 @@ export interface LoginPayload {
   password: string;
 }
 
+export interface RegisterPayload extends LoginPayload {
+  name: string;
+  avatar?: string;
+}
+
 export interface GetMeApiParams {
   accessToken: string;
 }

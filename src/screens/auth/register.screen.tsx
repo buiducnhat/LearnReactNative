@@ -14,12 +14,16 @@ import {
 import {TouchableWithoutFeedback, View} from 'react-native';
 import {KeyboardAvoidingView} from '@/components/keyboard-avoiding-view';
 import {routes} from '@/configs/routes.config';
+import {useAppDispatch} from '@/hooks/redux.hook';
+import {authActions} from '@/features/auth/auth.slice';
 
 const RegisterScreen = ({
   navigation,
 }: {
   navigation: any;
 }): React.ReactElement => {
+  const dispatch = useAppDispatch();
+
   const [name, setName] = React.useState<string>();
   const [email, setEmail] = React.useState<string>();
   const [password, setPassword] = React.useState<string>();
@@ -27,6 +31,12 @@ const RegisterScreen = ({
   const [termsAccepted, setTermsAccepted] = React.useState<boolean>(false);
 
   const styles = useStyleSheet(themedStyles);
+
+  const onRegisterButtonPress = (): void => {
+    if (!!email && !!name && !!password) {
+      dispatch(authActions.register({email, name, password}));
+    }
+  };
 
   const onLoginButtonPress = (): void => {
     navigation && navigation.navigate(routes.login);
@@ -94,7 +104,10 @@ const RegisterScreen = ({
           {renderCheckboxLabel}
         </CheckBox>
       </Layout>
-      <Button style={styles.registerButton} size="giant">
+      <Button
+        style={styles.registerButton}
+        size="giant"
+        onPress={onRegisterButtonPress}>
         REGISTER
       </Button>
       <Button

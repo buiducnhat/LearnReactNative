@@ -3,7 +3,12 @@ import {Service} from 'typedi';
 import axios from 'axios';
 import {API_ENDPOINT} from '@env';
 
-import {GetMeApiParams, LoginPayload, User} from './auth.model';
+import {
+  GetMeApiParams,
+  LoginPayload,
+  RegisterPayload,
+  User,
+} from './auth.model';
 
 @Service()
 export default class AuthService {
@@ -20,6 +25,28 @@ export default class AuthService {
       data: {
         email,
         password,
+      },
+    });
+    return response.data;
+  }
+
+  async registerApi({
+    email,
+    password,
+    name,
+    avatar,
+  }: RegisterPayload): Promise<{access_token: string}> {
+    const response = await axios({
+      url: `${API_ENDPOINT}/auth/register`,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: {
+        email,
+        password,
+        name,
+        avatar,
       },
     });
     return response.data;
