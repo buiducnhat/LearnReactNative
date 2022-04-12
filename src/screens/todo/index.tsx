@@ -1,6 +1,7 @@
 import {StyleSheet, View} from 'react-native';
 import React, {useState} from 'react';
 import {Layout, List} from '@ui-kitten/components';
+
 import TodoTopBar from './components/todo-top-bar';
 import TodoCard from './components/todo-card';
 import {useAppSelector} from '@/hooks/redux.hook';
