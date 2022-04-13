@@ -7,6 +7,7 @@ const initialState: AuthState = {
   accessToken: undefined,
   currentUser: undefined,
   isAuthenticated: false,
+  isPendingGetMe: false,
 };
 
 export const authSlice = createSlice({
@@ -38,12 +39,16 @@ export const authSlice = createSlice({
     },
 
     // Handle get me
-    getMe() {},
+    getMe(state) {
+      state.isPendingGetMe = true;
+    },
     getMeSuccess(state, action: PayloadAction<User>) {
+      state.isPendingGetMe = false;
       state.isAuthenticated = true;
       state.currentUser = action.payload;
     },
     getMeFailed(state) {
+      state.isPendingGetMe = false;
       state.isAuthenticated = false;
       state.currentUser = undefined;
     },
@@ -63,5 +68,7 @@ export const selectIsAuthenticated = (state: RootState) =>
   state.auth.isAuthenticated;
 export const selectAccessToken = (state: RootState) => state.auth.accessToken;
 export const selectCurrentUser = (state: RootState) => state.auth.currentUser;
+export const selectIsPendingGetMe = (state: RootState) =>
+  state.auth.isPendingGetMe;
 
 export default authSlice.reducer;

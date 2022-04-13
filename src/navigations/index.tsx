@@ -1,6 +1,7 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import SplashScreen from 'react-native-splash-screen';
 
 import {routes} from '@/configs/routes.config';
 import BottomTabNavigator from './bottom-tab';
@@ -14,11 +15,17 @@ const MyNavigationContainer = () => {
 
   const dispatch = useAppDispatch();
 
-  const {isAuthenticated, currentUser} = useCheckAuth();
+  const {isAuthenticated, currentUser, isPendingGetMe} = useCheckAuth();
 
   const onStateChange = () => {
     (!isAuthenticated || !currentUser) && dispatch(authActions.getMe());
   };
+
+  React.useEffect(() => {
+    setTimeout(() => {
+      !isPendingGetMe && SplashScreen.hide();
+    }, 100);
+  }, [isPendingGetMe]);
 
   return (
     <NavigationContainer onStateChange={onStateChange}>

@@ -9,6 +9,8 @@ export interface AuthState {
   currentUser?: User;
   isAuthenticated: boolean;
   accessToken?: string;
+
+  isPendingGetMe: boolean;
 }
 
 export interface LoginPayload {
