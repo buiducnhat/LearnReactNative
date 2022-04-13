@@ -7,4 +7,7 @@ export const routes = {
   profile: 'Profile',
   todo: 'Todo',
   settings: 'Settings',
+  notifications: 'Notifications',
+  apartmentNoti: 'Apartment',
+  generalNoti: 'General',
 };

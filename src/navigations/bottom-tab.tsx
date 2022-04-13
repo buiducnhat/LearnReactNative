@@ -11,6 +11,7 @@ import HomeScreen from '@/screens/home/home.screen';
 import SettingsScreen from '@/screens/settings';
 import ProfileScreen from '@/screens/profile';
 import TodoScreen from '@/screens/todo';
+import NotificationsScreen from '@/screens/notifications';
 
 const BottomStack = createBottomTabNavigator();
 
@@ -28,6 +29,10 @@ const SettingsIcon = (props: IconProps) => (
   <Icon {...props} name="settings-outline" />
 );
 
+const NotificationsIcon = (props: IconProps) => (
+  <Icon {...props} name="bell-outline" />
+);
+
 const BottomTabBar = ({navigation, state}: any) => (
   <BottomNavigation
     selectedIndex={state.index}
@@ -35,6 +40,7 @@ const BottomTabBar = ({navigation, state}: any) => (
     <BottomNavigationTab title="Home" icon={HomeIcon} />
     <BottomNavigationTab title="Todo" icon={TodoIcon} />
     <BottomNavigationTab title="Profile" icon={ProfileIcon} />
+    <BottomNavigationTab title="Notifications" icon={NotificationsIcon} />
     <BottomNavigationTab title="Settings" icon={SettingsIcon} />
   </BottomNavigation>
 );
@@ -46,6 +52,10 @@ const BottomTabNavigator = () => (
     <BottomStack.Screen name={routes.home} component={HomeScreen} />
     <BottomStack.Screen name={routes.todo} component={TodoScreen} />
     <BottomStack.Screen name={routes.profile} component={ProfileScreen} />
+    <BottomStack.Screen
+      name={routes.notifications}
+      component={NotificationsScreen}
+    />
     <BottomStack.Screen name={routes.settings} component={SettingsScreen} />
   </BottomStack.Navigator>
 );
