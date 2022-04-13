@@ -11,6 +11,8 @@ export interface AuthState {
   accessToken?: string;
 
   isPendingGetMe: boolean;
+  isPendingLogin: boolean;
+  isPendingRegister: boolean;
 }
 
 export interface LoginPayload {

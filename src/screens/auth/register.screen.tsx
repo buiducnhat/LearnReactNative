@@ -1,21 +1,21 @@
 import React, {ReactElement} from 'react';
 import {
-  Button,
   CheckBox,
   Icon,
   IconProps,
   Input,
-  Layout,
   StyleService,
   Text,
   useStyleSheet,
 } from '@ui-kitten/components';
 
-import {TouchableWithoutFeedback, View} from 'react-native';
-import {KeyboardAvoidingView} from '@/components/keyboard-avoiding-view';
+import {TouchableWithoutFeedback} from 'react-native';
 import {routes} from '@/configs/routes.config';
-import {useAppDispatch} from '@/hooks/redux.hook';
+import {useAppDispatch, useAppSelector} from '@/hooks/redux.hook';
 import {authActions} from '@/features/auth/auth.slice';
+import SubmitButton from './components/submit-button';
+import NavigateText from './components/navigate-text';
+import AuthTemplate from './components/auth-template';
 
 const RegisterScreen = ({
   navigation,
@@ -23,6 +23,10 @@ const RegisterScreen = ({
   navigation: any;
 }): React.ReactElement => {
   const dispatch = useAppDispatch();
+
+  const isPendingRegister = useAppSelector(
+    state => state.auth.isPendingRegister,
+  );
 
   const [name, setName] = React.useState<string>();
   const [email, setEmail] = React.useState<string>();
@@ -64,98 +68,71 @@ const RegisterScreen = ({
     [styles.termsCheckBoxText],
   );
 
-  return (
-    <KeyboardAvoidingView style={styles.container}>
-      <View style={styles.headerContainer}>
-        <Text category="h1" status="control">
-          Hello
-        </Text>
-        <Text style={styles.registerLabel} category="s1" status="control">
-          Register new account
-        </Text>
-      </View>
-      <Layout style={styles.formContainer} level="1">
-        <Input
-          placeholder="Name"
-          accessoryRight={UserIcon}
-          value={name}
-          onChangeText={setName}
-        />
-        <Input
-          style={styles.inputMT}
-          placeholder="Email"
-          keyboardType="email-address"
-          accessoryRight={EmailIcon}
-          value={email}
-          onChangeText={setEmail}
-        />
-        <Input
-          style={styles.inputMT}
-          placeholder="Password"
-          accessoryRight={renderPasswordIcon}
-          value={password}
-          secureTextEntry={!passwordVisible}
-          onChangeText={setPassword}
-        />
-        <CheckBox
-          style={styles.termsCheckBox}
-          checked={termsAccepted}
-          onChange={(checked: boolean) => setTermsAccepted(checked)}>
-          {renderCheckboxLabel}
-        </CheckBox>
-      </Layout>
-      <Button
-        style={styles.registerButton}
-        size="giant"
+  const renderInputs = () => (
+    <>
+      <Input
+        placeholder="Name"
+        accessoryRight={UserIcon}
+        value={name}
+        onChangeText={setName}
+      />
+      <Input
+        style={styles.inputMT}
+        placeholder="Email"
+        keyboardType="email-address"
+        accessoryRight={EmailIcon}
+        value={email}
+        onChangeText={setEmail}
+      />
+      <Input
+        style={styles.inputMT}
+        placeholder="Password"
+        accessoryRight={renderPasswordIcon}
+        value={password}
+        secureTextEntry={!passwordVisible}
+        onChangeText={setPassword}
+      />
+      <CheckBox
+        style={styles.termsCheckBox}
+        checked={termsAccepted}
+        onChange={(checked: boolean) => setTermsAccepted(checked)}>
+        {renderCheckboxLabel}
+      </CheckBox>
+    </>
+  );
+
+  const renderActions = () => (
+    <>
+      <SubmitButton
+        isLoading={isPendingRegister}
         onPress={onRegisterButtonPress}>
         REGISTER
-      </Button>
-      <Button
-        style={styles.loginButton}
-        appearance="ghost"
-        status="basic"
-        onPress={onLoginButtonPress}>
+      </SubmitButton>
+      <NavigateText onPress={onLoginButtonPress}>
         Already have an account? Login now
-      </Button>
-    </KeyboardAvoidingView>
+      </NavigateText>
+    </>
+  );
+
+  return (
+    <>
+      <AuthTemplate
+        heading="Hello"
+        label="Register new account"
+        renderInputs={renderInputs()}
+        renderActions={renderActions()}
+      />
+    </>
   );
 };
 
 const themedStyles = StyleService.create({
-  container: {
-    backgroundColor: 'background-basic-color-1',
-  },
-  headerContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    minHeight: 216,
-    backgroundColor: 'color-primary-default',
-  },
-  formContainer: {
-    flex: 1,
-    paddingTop: 32,
-    paddingHorizontal: 16,
-  },
-  registerLabel: {
-    marginTop: 16,
-  },
-  registerButton: {
-    marginHorizontal: 16,
-  },
   termsCheckBox: {
     marginTop: 24,
   },
   termsCheckBoxText: {
     color: 'text-hint-color',
     marginLeft: 10,
-  },
-  loginButton: {
-    marginVertical: 12,
-    marginHorizontal: 16,
-  },
-  forgotPasswordContainer: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
   },
   inputMT: {
     marginTop: 16,

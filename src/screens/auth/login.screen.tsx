@@ -4,20 +4,22 @@ import {
   Icon,
   IconProps,
   Input,
-  Layout,
   StyleService,
-  Text,
   useStyleSheet,
 } from '@ui-kitten/components';
 
 import {TouchableWithoutFeedback, View} from 'react-native';
-import {KeyboardAvoidingView} from '@/components/keyboard-avoiding-view';
 import {routes} from '@/configs/routes.config';
-import {useAppDispatch} from '@/hooks/redux.hook';
+import {useAppDispatch, useAppSelector} from '@/hooks/redux.hook';
 import {authActions} from '@/features/auth/auth.slice';
+import SubmitButton from './components/submit-button';
+import NavigateText from './components/navigate-text';
+import AuthTemplate from './components/auth-template';
 
 const LoginScreen = ({navigation}: {navigation: any}): React.ReactElement => {
   const dispatch = useAppDispatch();
+
+  const isPendingLogin = useAppSelector(state => state.auth.isPendingLogin);
 
   const [email, setEmail] = React.useState<string>('');
   const [password, setPassword] = React.useState<string>('');
@@ -49,84 +51,57 @@ const LoginScreen = ({navigation}: {navigation: any}): React.ReactElement => {
     </TouchableWithoutFeedback>
   );
 
-  return (
-    <KeyboardAvoidingView style={styles.container}>
-      <View style={styles.headerContainer}>
-        <Text category="h1" status="control">
-          Hello
-        </Text>
-        <Text style={styles.signInLabel} category="s1" status="control">
-          Sign in to your account
-        </Text>
+  const renderInputs = () => (
+    <>
+      <Input
+        placeholder="Email"
+        keyboardType="email-address"
+        accessoryRight={EmailIcon}
+        value={email}
+        onChangeText={setEmail}
+      />
+      <Input
+        style={styles.passwordInput}
+        placeholder="Password"
+        accessoryRight={renderPasswordIcon}
+        value={password}
+        secureTextEntry={!passwordVisible}
+        onChangeText={setPassword}
+      />
+      <View style={styles.forgotPasswordContainer}>
+        <Button
+          style={styles.forgotPasswordButton}
+          appearance="ghost"
+          status="basic"
+          onPress={onForgotPasswordButtonPress}>
+          Forgot your password?
+        </Button>
       </View>
-      <Layout style={styles.formContainer} level="1">
-        <Input
-          placeholder="Email"
-          keyboardType="email-address"
-          accessoryRight={EmailIcon}
-          value={email}
-          onChangeText={setEmail}
-        />
-        <Input
-          style={styles.passwordInput}
-          placeholder="Password"
-          accessoryRight={renderPasswordIcon}
-          value={password}
-          secureTextEntry={!passwordVisible}
-          onChangeText={setPassword}
-        />
-        <View style={styles.forgotPasswordContainer}>
-          <Button
-            style={styles.forgotPasswordButton}
-            appearance="ghost"
-            status="basic"
-            onPress={onForgotPasswordButtonPress}>
-            Forgot your password?
-          </Button>
-        </View>
-      </Layout>
-      <Button
-        style={styles.signInButton}
-        size="giant"
-        onPress={onLoginButtonPress}>
-        SIGN IN
-      </Button>
-      <Button
-        style={styles.signUpButton}
-        appearance="ghost"
-        status="basic"
-        onPress={onRegisterButtonPress}>
+    </>
+  );
+
+  const renderActions = () => (
+    <>
+      <SubmitButton isLoading={isPendingLogin} onPress={onLoginButtonPress}>
+        LOGIN
+      </SubmitButton>
+      <NavigateText onPress={onRegisterButtonPress}>
         Don't have an account? Create
-      </Button>
-    </KeyboardAvoidingView>
+      </NavigateText>
+    </>
+  );
+
+  return (
+    <AuthTemplate
+      heading="Hello"
+      label="Login to your account"
+      renderInputs={renderInputs()}
+      renderActions={renderActions()}
+    />
   );
 };
 
 const themedStyles = StyleService.create({
-  container: {
-    backgroundColor: 'background-basic-color-1',
-  },
-  headerContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    minHeight: 216,
-    backgroundColor: 'color-primary-default',
-  },
-  formContainer: {
-    flex: 1,
-    paddingTop: 32,
-    paddingHorizontal: 16,
-  },
-  signInLabel: {
-    marginTop: 16,
-  },
-  signInButton: {
-    marginHorizontal: 16,
-  },
-  signUpButton: {
-    marginVertical: 12,
-    marginHorizontal: 16,
-  },
   forgotPasswordContainer: {
     flexDirection: 'row',
     justifyContent: 'flex-end',

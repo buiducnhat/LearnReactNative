@@ -8,6 +8,8 @@ const initialState: AuthState = {
   currentUser: undefined,
   isAuthenticated: false,
   isPendingGetMe: false,
+  isPendingLogin: false,
+  isPendingRegister: false,
 };
 
 export const authSlice = createSlice({
@@ -15,24 +17,32 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     // Handle login
-    login(_state, _action: PayloadAction<LoginPayload>) {},
+    login(state, _action: PayloadAction<LoginPayload>) {
+      state.isPendingLogin = true;
+    },
     loginSuccess(state, action: PayloadAction<{access_token?: string}>) {
+      state.isPendingLogin = false;
       state.accessToken = action.payload.access_token;
       state.isAuthenticated = true;
     },
     loginFailed(state) {
+      state.isPendingLogin = false;
       state.accessToken = undefined;
       state.isAuthenticated = false;
       state.currentUser = undefined;
     },
 
     // Handle register
-    register(_state, _action: PayloadAction<RegisterPayload>) {},
+    register(state, _action: PayloadAction<RegisterPayload>) {
+      state.isPendingRegister = true;
+    },
     registerSuccess(state, action: PayloadAction<{access_token?: string}>) {
+      state.isPendingRegister = false;
       state.accessToken = action.payload.access_token;
       state.isAuthenticated = true;
     },
     registerFailed(state) {
+      state.isPendingRegister = false;
       state.accessToken = undefined;
       state.isAuthenticated = false;
       state.currentUser = undefined;
