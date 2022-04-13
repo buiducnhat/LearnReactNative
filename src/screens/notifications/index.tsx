@@ -16,8 +16,8 @@ const TopNavigator = ({navigation, state}: MaterialTopTabBarProps) => (
   <TabBar
     selectedIndex={state.index}
     onSelect={index => navigation.navigate(state.routeNames[index])}>
-    <Tab style={{padding: 16}} title={routes.generalNoti} />
-    <Tab title={routes.apartmentNoti} />
+    <Tab style={{paddingVertical: 8}} title={routes.generalNoti} />
+    <Tab style={{paddingVertical: 8}} title={routes.apartmentNoti} />
   </TabBar>
 );
 
