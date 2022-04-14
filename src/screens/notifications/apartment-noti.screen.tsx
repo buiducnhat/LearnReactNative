@@ -1,23 +1,23 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet} from 'react-native';
 import {Layout, List} from '@ui-kitten/components';
-import axios from 'axios';
+import Container from 'typedi';
 
 import NotificationCard from './components/noti-card';
+import TenantNotiService from '@/features/tenant-noti/tenant-noti.service';
 
 const ApartmentNotiScreen = () => {
   const [items, setItems] = useState<any[]>([]);
 
-  const fetchData = async () => {
-    const response = await axios({
-      url: 'http://103.229.41.59/api/services/app/UserCityNotification/GetAllNotificationUserTenant?Type=1',
+  const fetchAllNotifications = () => {
+    const tentantNotiService = Container.get(TenantNotiService);
+    tentantNotiService.getApartmentNotificationsApi().then(data => {
+      setItems(data);
     });
-    console.log('fetched');
-    setItems(response.data.result.data);
   };
 
   useEffect(() => {
-    fetchData();
+    fetchAllNotifications();
   }, []);
 
   const renderItem = (info: any) => <NotificationCard {...info.item} />;
