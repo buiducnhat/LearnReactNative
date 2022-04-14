@@ -28,26 +28,28 @@ const CommentIcon = (props: IconProps) => (
   <Icon name="message-circle-outline" {...props} />
 );
 
-interface NotificationCardProps
-  extends TenantNotification,
-    TouchableWithoutFeedbackProps {}
+interface NotificationCardProps extends TouchableWithoutFeedbackProps {
+  tenantNotification: TenantNotification;
+}
 
 const NotificationCard = ({
-  name,
-  creationTime,
-  countFollow,
-  countComment,
+  tenantNotification,
   ...rest
 }: NotificationCardProps) => {
   const styles = useStyleSheet(themedStyles);
 
   const navigation = useNavigation();
 
+  const {name, creationTime, countFollow, countComment} = tenantNotification;
+
   const [level, setLevel] = React.useState('1');
 
   const onPress = () => {
     setLevel(level === '1' ? '3' : '1');
-    navigation.navigate(routes.notiDetail as never);
+    navigation.navigate(
+      routes.notiDetail as never,
+      {tenantNotification} as never,
+    );
   };
 
   return (

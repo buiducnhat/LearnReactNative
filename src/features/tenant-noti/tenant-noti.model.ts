@@ -20,3 +20,21 @@ export interface TenantNotification {
   creationTime: string;
   creatorUserId: number;
 }
+
+export interface TenantNotificationComment {
+  id: number;
+  cityNotificationId: number;
+  fullName: string;
+  avatar: string;
+  comment: string;
+  isLike: boolean;
+  tenantId?: any;
+  type: number;
+  isDeleted: boolean;
+  deleterUserId?: number;
+  deletionTime?: string;
+  lastModificationTime?: string;
+  lastModifierUserId?: number;
+  creationTime: string;
+  creatorUserId: number;
+}

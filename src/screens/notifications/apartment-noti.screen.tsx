@@ -22,7 +22,7 @@ const ApartmentNotiScreen = () => {
   }, []);
 
   const renderItem = (info: ListRenderItemInfo<TenantNotification>) => (
-    <NotificationCard {...info.item} />
+    <NotificationCard tenantNotification={info.item} />
   );
 
   return (
