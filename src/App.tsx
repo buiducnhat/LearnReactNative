@@ -8,13 +8,14 @@ import MyNavigationContainer from './navigations';
 import {store} from './features/store';
 import {useAppSelector} from './hooks/redux.hook';
 import {selectThemeType} from './features/app/app.slice';
+import {darkTheme, lightTheme} from './features/theme';
 
 const ThemeProvider = ({children}: {children: React.ReactNode}) => {
   const themeType = useAppSelector(selectThemeType);
   return (
     <ApplicationProvider
       {...eva}
-      theme={themeType === 'light' ? eva.light : eva.dark}>
+      theme={themeType === 'light' ? lightTheme : darkTheme}>
       {children}
     </ApplicationProvider>
   );
