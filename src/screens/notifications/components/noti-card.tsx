@@ -17,6 +17,8 @@ import {
 import {format} from 'date-fns';
 
 import {TenantNotification} from '@/features/tenant-noti/tenant-noti.model';
+import {useNavigation} from '@react-navigation/native';
+import {routes} from '@/configs/routes.config';
 
 const FollowIcon = (props: IconProps) => (
   <Icon name="heart-outline" {...props} />
@@ -39,10 +41,13 @@ const NotificationCard = ({
 }: NotificationCardProps) => {
   const styles = useStyleSheet(themedStyles);
 
+  const navigation = useNavigation();
+
   const [level, setLevel] = React.useState('1');
 
   const onPress = () => {
-    setLevel(level === '1' ? '2' : '1');
+    setLevel(level === '1' ? '3' : '1');
+    navigation.navigate(routes.notiDetail as never);
   };
 
   return (

@@ -10,4 +10,5 @@ export const routes = {
   notifications: 'Notifications',
   apartmentNoti: 'Apartment',
   generalNoti: 'General',
+  notiDetail: 'Notification Detail',
 };
