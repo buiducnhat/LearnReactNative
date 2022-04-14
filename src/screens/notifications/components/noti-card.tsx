@@ -1,10 +1,14 @@
 import {
   TouchableWithoutFeedback,
   TouchableWithoutFeedbackProps,
+  View,
 } from 'react-native';
 import React from 'react';
 import {
+  Button,
   Divider,
+  Icon,
+  IconProps,
   Layout,
   StyleService,
   Text,
@@ -12,15 +16,25 @@ import {
 } from '@ui-kitten/components';
 import {format} from 'date-fns';
 
-interface NotificationCardProps extends TouchableWithoutFeedbackProps {
-  name: string;
-  data: string;
-  creationTime: string;
-}
+import {TenantNotification} from '@/features/tenant-noti/tenant-noti.model';
+
+const FollowIcon = (props: IconProps) => (
+  <Icon name="heart-outline" {...props} />
+);
+
+const CommentIcon = (props: IconProps) => (
+  <Icon name="message-circle-outline" {...props} />
+);
+
+interface NotificationCardProps
+  extends TenantNotification,
+    TouchableWithoutFeedbackProps {}
 
 const NotificationCard = ({
   name,
   creationTime,
+  countFollow,
+  countComment,
   ...rest
 }: NotificationCardProps) => {
   const styles = useStyleSheet(themedStyles);
@@ -40,9 +54,27 @@ const NotificationCard = ({
 
         <Divider style={{marginVertical: 8}} />
 
-        <Text category="s1" appearance="hint" style={styles.timeText}>
-          {format(new Date(creationTime), 'KK:mm a - MMM, dd yyyy')}
-        </Text>
+        <View style={styles.bottomContainer}>
+          <Button
+            status="danger"
+            size="small"
+            appearance="ghost"
+            accessoryLeft={FollowIcon}>
+            {countFollow || '0'}
+          </Button>
+
+          <Button
+            status="success"
+            size="small"
+            appearance="ghost"
+            accessoryLeft={CommentIcon}>
+            {countComment || '0'}
+          </Button>
+
+          <Text category="s1" appearance="hint" style={styles.timeText}>
+            {format(new Date(creationTime), 'KK:mm a - MMM, dd yyyy')}
+          </Text>
+        </View>
       </Layout>
     </TouchableWithoutFeedback>
   );
@@ -63,7 +95,12 @@ const themedStyles = StyleService.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
+  bottomContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   timeText: {
+    flex: 1,
     textAlign: 'right',
     fontSize: 14,
   },

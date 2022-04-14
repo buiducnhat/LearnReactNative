@@ -1,13 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet} from 'react-native';
+import {ListRenderItemInfo, StyleSheet} from 'react-native';
 import {Layout, List} from '@ui-kitten/components';
 import Container from 'typedi';
 
 import NotificationCard from './components/noti-card';
 import TenantNotiService from '@/features/tenant-noti/tenant-noti.service';
+import {TenantNotification} from '@/features/tenant-noti/tenant-noti.model';
 
 const ApartmentNotiScreen = () => {
-  const [items, setItems] = useState<any[]>([]);
+  const [items, setItems] = useState<TenantNotification[]>([]);
 
   const fetchAllNotifications = () => {
     const tentantNotiService = Container.get(TenantNotiService);
@@ -20,7 +21,9 @@ const ApartmentNotiScreen = () => {
     fetchAllNotifications();
   }, []);
 
-  const renderItem = (info: any) => <NotificationCard {...info.item} />;
+  const renderItem = (info: ListRenderItemInfo<TenantNotification>) => (
+    <NotificationCard {...info.item} />
+  );
 
   return (
     <Layout style={styles.container}>
