@@ -14,6 +14,7 @@ const {Navigator, Screen} = createMaterialTopTabNavigator();
 
 const TopNavigator = ({navigation, state}: MaterialTopTabBarProps) => (
   <TabBar
+    indicatorStyle={{display: 'none'}}
     selectedIndex={state.index}
     onSelect={index => navigation.navigate(state.routeNames[index])}>
     <Tab style={{paddingVertical: 8}} title={routes.generalNoti} />
