@@ -1,7 +1,7 @@
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {Avatar, Layout, Text} from '@ui-kitten/components';
-import {StyleSheet} from 'react-native';
+import {Avatar, Button, Layout, Text} from '@ui-kitten/components';
+import {StyleSheet, View} from 'react-native';
 
 import useCheckAuth from '@/hooks/useCheckAuth';
 import {useAppDispatch} from '@/hooks/redux.hook';
@@ -24,18 +24,52 @@ const ProfileScreen = () => {
   }, [currentUser, dispatch, isAuthenticated, navigation]);
 
   return (
-    <Layout style={styles.container} level="1">
+    <Layout style={styles.container} level="2">
       <ProfileTopBar />
 
-      <Text category="h6">{currentUser?.fullName}</Text>
-      <Avatar
-        size="giant"
-        source={
-          currentUser?.imageUrl
-            ? {uri: currentUser?.imageUrl}
-            : require('@/assets/images/avatar-placeholder.webp')
-        }
-      />
+      <Layout
+        level="2"
+        style={{
+          height: 150,
+          width: '100%',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+        <Avatar
+          style={{width: 96, height: 96}}
+          source={
+            currentUser?.imageUrl
+              ? {uri: currentUser?.imageUrl}
+              : require('@/assets/images/avatar-placeholder.webp')
+          }
+        />
+      </Layout>
+
+      <Layout style={{width: '100%', marginBottom: 16}} level="1">
+        <View style={styles.itemContainer}>
+          <Text appearance="hint">Name</Text>
+          <Text>{currentUser?.name}</Text>
+        </View>
+
+        <View style={styles.itemContainer}>
+          <Text appearance="hint">Surname</Text>
+          <Text>{currentUser?.surname}</Text>
+        </View>
+      </Layout>
+
+      <Layout style={{width: '100%', marginBottom: 16}} level="1">
+        <View style={styles.itemContainer}>
+          <Text appearance="hint">Email</Text>
+          <Text>{currentUser?.emailAddress}</Text>
+        </View>
+
+        <View style={styles.itemContainer}>
+          <Text appearance="hint">Username</Text>
+          <Text>{currentUser?.userName}</Text>
+        </View>
+      </Layout>
+
+      <Button style={{width: '85%'}}>DONE</Button>
     </Layout>
   );
 };
@@ -44,6 +78,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
+  },
+  itemContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+    padding: 16,
+    borderBottomColor: 'rgba(0,0,0,0.15)',
+    borderBottomWidth: 0.5,
   },
 });
 
