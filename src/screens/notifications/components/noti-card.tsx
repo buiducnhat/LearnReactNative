@@ -42,10 +42,7 @@ const NotificationCard = ({
 
   const {name, creationTime, countFollow, countComment} = tenantNotification;
 
-  const [level, setLevel] = React.useState('1');
-
   const onPress = () => {
-    setLevel(level === '1' ? '3' : '1');
     navigation.navigate(
       routes.notiDetail as never,
       {tenantNotification} as never,
@@ -54,7 +51,7 @@ const NotificationCard = ({
 
   return (
     <TouchableWithoutFeedback onPress={onPress} {...rest}>
-      <Layout style={styles.container} level={level}>
+      <Layout style={styles.container}>
         <Text style={styles.nameText} status="info">
           {name}
         </Text>
