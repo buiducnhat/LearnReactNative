@@ -1,6 +1,7 @@
 import React, {ReactElement} from 'react';
 import {
   CheckBox,
+  Datepicker,
   Icon,
   IconProps,
   Input,
@@ -9,7 +10,7 @@ import {
   useStyleSheet,
 } from '@ui-kitten/components';
 
-import {TouchableWithoutFeedback} from 'react-native';
+import {TouchableWithoutFeedback, View} from 'react-native';
 import {routes} from '@/configs/routes.config';
 import {useAppDispatch, useAppSelector} from '@/hooks/redux.hook';
 import {authActions} from '@/features/auth/auth.slice';
@@ -28,17 +29,34 @@ const RegisterScreen = ({
     state => state.auth.isPendingRegister,
   );
 
-  const [name, setName] = React.useState<string>();
-  const [email, setEmail] = React.useState<string>();
-  const [password, setPassword] = React.useState<string>();
+  const [name, setName] = React.useState<string>('');
+  const [surname, setSurname] = React.useState<string>('');
+  const [userName, setUserName] = React.useState<string>('');
+  const [emailAddress, setEmailAddress] = React.useState<string>('');
+  const [phoneNumber, setPhoneNumber] = React.useState<string>('');
+  const [address, setAddress] = React.useState<string>('');
+  const [gender, setGender] = React.useState<string>('');
+  const [dateOfBirth, setDateOfBirth] = React.useState<string>();
+  const [password, setPassword] = React.useState<string>('');
   const [passwordVisible, setPasswordVisible] = React.useState<boolean>(false);
   const [termsAccepted, setTermsAccepted] = React.useState<boolean>(false);
 
   const styles = useStyleSheet(themedStyles);
 
   const onRegisterButtonPress = (): void => {
-    if (!!email && !!name && !!password) {
-      dispatch(authActions.register({email, name, password}));
+    if (!!emailAddress && !!name && !!userName && !!password) {
+      dispatch(
+        authActions.register({
+          emailAddress,
+          userName,
+          name,
+          surname,
+          address,
+          gender,
+          dateOfBirth,
+          password,
+        }),
+      );
     }
   };
 
@@ -51,7 +69,13 @@ const RegisterScreen = ({
   };
 
   const UserIcon = (props: IconProps) => <Icon name="person" {...props} />;
+  const UserNameIcon = (props: IconProps) => <Icon name="at" {...props} />;
   const EmailIcon = (props: IconProps) => <Icon name="email" {...props} />;
+  const PhoneIcon = (props: IconProps) => <Icon name="phone" {...props} />;
+  const AddressIcon = (props: IconProps) => <Icon name="pin" {...props} />;
+  const CalendarIcon = (props: IconProps) => (
+    <Icon {...props} name="calendar" />
+  );
 
   const renderPasswordIcon = (props: IconProps): ReactElement => (
     <TouchableWithoutFeedback onPress={onPasswordIconPress}>
@@ -70,20 +94,74 @@ const RegisterScreen = ({
 
   const renderInputs = () => (
     <>
-      <Input
-        placeholder="Name"
-        accessoryRight={UserIcon}
-        value={name}
-        onChangeText={setName}
-      />
+      <View style={styles.nameContainer}>
+        <Input
+          style={{flex: 1, marginEnd: 16}}
+          placeholder="Name"
+          accessoryRight={UserIcon}
+          value={name}
+          onChangeText={setName}
+        />
+        <Input
+          style={{flex: 1}}
+          placeholder="Surname"
+          accessoryRight={UserIcon}
+          value={surname}
+          onChangeText={setSurname}
+        />
+      </View>
+
       <Input
         style={styles.inputMT}
         placeholder="Email"
         keyboardType="email-address"
         accessoryRight={EmailIcon}
-        value={email}
-        onChangeText={setEmail}
+        value={emailAddress}
+        onChangeText={setEmailAddress}
       />
+
+      <Input
+        style={styles.inputMT}
+        placeholder="Username"
+        accessoryRight={UserNameIcon}
+        value={userName}
+        onChangeText={setUserName}
+      />
+
+      <Input
+        style={styles.inputMT}
+        placeholder="Phone"
+        accessoryRight={PhoneIcon}
+        value={phoneNumber}
+        onChangeText={setPhoneNumber}
+      />
+
+      <Input
+        style={styles.inputMT}
+        placeholder="Address"
+        accessoryRight={AddressIcon}
+        value={address}
+        onChangeText={setAddress}
+      />
+
+      <View style={[styles.inputMT, styles.nameContainer]}>
+        <Input
+          style={{flex: 1, marginEnd: 16}}
+          placeholder="Gender"
+          accessoryRight={UserIcon}
+          value={gender}
+          onChangeText={setGender}
+        />
+
+        <Datepicker
+          style={{flex: 1}}
+          placeholder="Birthday"
+          date={dateOfBirth ? new Date(dateOfBirth) : new Date()}
+          onSelect={nextDate => setDateOfBirth(nextDate.toUTCString())}
+          accessoryRight={CalendarIcon}
+        />
+      </View>
+
       <Input
         style={styles.inputMT}
         placeholder="Password"
@@ -92,6 +170,7 @@ const RegisterScreen = ({
         secureTextEntry={!passwordVisible}
         onChangeText={setPassword}
       />
+
       <CheckBox
         style={styles.termsCheckBox}
         checked={termsAccepted}
@@ -127,6 +206,9 @@ const RegisterScreen = ({
 };
 
 const themedStyles = StyleService.create({
+  nameContainer: {
+    flexDirection: 'row',
+  },
   termsCheckBox: {
     marginTop: 24,
   },

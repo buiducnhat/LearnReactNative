@@ -27,8 +27,15 @@ const ProfileScreen = () => {
     <Layout style={styles.container} level="1">
       <ProfileTopBar />
 
-      <Text category="h6">{currentUser?.name}</Text>
-      <Avatar size="giant" source={{uri: currentUser?.avatar}} />
+      <Text category="h6">{currentUser?.fullName}</Text>
+      <Avatar
+        size="giant"
+        source={
+          currentUser?.imageUrl
+            ? {uri: currentUser?.imageUrl}
+            : require('@/assets/images/avatar-placeholder.webp')
+        }
+      />
     </Layout>
   );
 };

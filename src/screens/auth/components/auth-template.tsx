@@ -45,7 +45,7 @@ const themedStyles = StyleService.create({
   headerContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    minHeight: 216,
+    minHeight: 150,
     backgroundColor: 'color-primary-default',
   },
   formContainer: {

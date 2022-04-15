@@ -1,6 +1,5 @@
 import 'reflect-metadata';
-import {Service} from 'typedi';
-import axios from 'axios';
+import {Container, Service} from 'typedi';
 import {API_ENDPOINT} from '@env';
 
 import {
@@ -9,57 +8,70 @@ import {
   RegisterPayload,
   User,
 } from './auth.model';
+import UtilsService from '@/services/utils.service';
 
 @Service()
 export default class AuthService {
   async loginApi({
     email,
     password,
-  }: LoginPayload): Promise<{access_token: string}> {
-    const response = await axios({
-      url: `${API_ENDPOINT}/auth/login`,
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      data: {
-        email,
-        password,
-      },
-    });
-    return response.data;
+  }: LoginPayload): Promise<{accessToken: string}> {
+    const utilsService = Container.get(UtilsService);
+    const url = `${API_ENDPOINT}/api/TokenAuth/Authenticate`;
+    const data = {
+      userNameOrEmailAddress: email,
+      password,
+      rememberClient: true,
+    };
+    const response = await utilsService.axiosRequest(
+      url,
+      undefined,
+      undefined,
+      data,
+      'POST',
+    );
+    return {accessToken: response.result.accessToken};
   }
 
   async registerApi({
-    email,
+    emailAddress,
     password,
     name,
-    avatar,
-  }: RegisterPayload): Promise<{access_token: string}> {
-    const response = await axios({
-      url: `${API_ENDPOINT}/auth/register`,
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      data: {
-        email,
-        password,
-        name,
-        avatar,
-      },
-    });
-    return response.data;
+    surname,
+    userName,
+    address,
+    dateOfBirth,
+    gender,
+    phoneNumber,
+  }: RegisterPayload): Promise<{accessToken: string}> {
+    const utilsService = Container.get(UtilsService);
+
+    const url = `${API_ENDPOINT}/api/services/app/Account/Register`;
+    const data = {
+      emailAddress,
+      password,
+      name,
+      surname,
+      userName,
+      address,
+      dateOfBirth,
+      gender,
+      phoneNumber,
+    };
+    await utilsService.axiosRequest(url, undefined, undefined, data, 'POST');
+
+    return this.loginApi({email: emailAddress, password});
   }
 
   async getMeApi({accessToken}: GetMeApiParams): Promise<User> {
-    const response = await axios({
-      url: `${API_ENDPOINT}/auth/me`,
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const utilsService = Container.get(UtilsService);
+    const url = `${API_ENDPOINT}/api/services/app/User/GetDetail`;
+    const response = await utilsService.axiosRequest(
+      url,
+      undefined,
+      accessToken,
+    );
 
-    return response.data;
+    return response.result;
   }
 }

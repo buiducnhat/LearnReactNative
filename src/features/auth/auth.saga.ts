@@ -9,7 +9,7 @@ import {authActions, selectAccessToken} from './auth.slice';
 export function* handleLogin(action: PayloadAction<LoginPayload>) {
   try {
     const authService = Container.get(AuthService);
-    const result: {access_token: string} = yield call(
+    const result: {accessToken: string} = yield call(
       authService.loginApi,
       action.payload,
     );
@@ -23,7 +23,7 @@ export function* handleLogin(action: PayloadAction<LoginPayload>) {
 export function* handleRegister(action: PayloadAction<RegisterPayload>) {
   try {
     const authService = Container.get(AuthService);
-    const result: {access_token: string} = yield call(
+    const result: {accessToken: string} = yield call(
       authService.registerApi,
       action.payload,
     );

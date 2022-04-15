@@ -20,9 +20,9 @@ export const authSlice = createSlice({
     login(state, _action: PayloadAction<LoginPayload>) {
       state.isPendingLogin = true;
     },
-    loginSuccess(state, action: PayloadAction<{access_token?: string}>) {
+    loginSuccess(state, action: PayloadAction<{accessToken?: string}>) {
       state.isPendingLogin = false;
-      state.accessToken = action.payload.access_token;
+      state.accessToken = action.payload.accessToken;
       state.isAuthenticated = true;
     },
     loginFailed(state) {
