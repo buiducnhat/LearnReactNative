@@ -60,7 +60,7 @@ const NotificationComments = ({notificationId}: NotificationCommentsProps) => {
   );
 
   return (
-    <View>
+    <View style={{paddingBottom: 24}}>
       {data.map((item, index) => (
         <React.Fragment key={index}>
           <Divider />

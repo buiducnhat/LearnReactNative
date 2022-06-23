@@ -13,8 +13,8 @@ const NotiDetailScreen = () => {
     .tenantNotification as TenantNotification;
 
   return (
-    <ScrollView style={{flex: 1}}>
-      <Layout style={styles.layoutContainer}>
+    <Layout style={{flex: 1}}>
+      <ScrollView style={styles.scrollViewContainer}>
         <View style={{marginBottom: 12}} />
         <Text category="h5">{tenantNotification.name}</Text>
 
@@ -27,15 +27,15 @@ const NotiDetailScreen = () => {
         </Text>
 
         <NotificationComments notificationId={tenantNotification.id} />
-      </Layout>
-    </ScrollView>
+      </ScrollView>
+    </Layout>
   );
 };
 
 export default NotiDetailScreen;
 
 const styles = StyleSheet.create({
-  layoutContainer: {
+  scrollViewContainer: {
     padding: 12,
   },
   listContainer: {
